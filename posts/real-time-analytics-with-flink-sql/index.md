@@ -9,6 +9,9 @@ tags:
   - sql
 authorGithubAlias: Olimbia23
 authorName: Olimbia Qirjaqi
+additionalAuthors:
+  - authorGithubAlias: flo-mair
+    authorName: Florian Mair
 date: 2023-06-19
 ---
 
@@ -17,11 +20,16 @@ Some common use cases for real time data analytics include:
 
 1. Clickstream analytics to determine customer behavior
 2. Analyze real-time events from IoT devices
-3. Feed real time dashboards
-4. Trigger real time notifications and alarms 
+3. Feed real-time dashboards
+4. Trigger real-time notifications and alarms
 
+<<<<<<< Updated upstream
 To perform real-time analytics, a distinct set of tools are necessary for the collection and analysis of streaming data as compared to traditional analytic methods. The required infrastructure entails the selection of a messaging system, such as [Amazon Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams?sc_channel=el&sc_campaign=datamlwave&sc_content=cicdetlsprkaws&sc_geo=mult&sc_country=mult&sc_outcome=acq) (KDS) or Apache Kafka to support the capture of real-time data, and a real-time processing engine such as Amazon Kinesis Data Analytics or Apache Spark, to enable fast processing and analysis of incoming information.
 In this blog post we will ingest data into Kinesis Data Streams and analyze it using Kinesis Data Analytics.
+=======
+To perform real-time analytics, a distinct set of tools are necessary for the collection and analysis of streaming data as compared to traditional analytic methods. The required infrastructure entails the selection of a messaging system, such as [Amazon Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams/) (KDS) or Apache Kafka to support the capture of real-time data, and a real-time processing engine such as Amazon Kinesis Data Analytics or Apache Spark, to enable fast processing and analysis of incoming information.
+In this blog post we will ingest data into Kinesis Data Streams (KDS) and analyze it using Kinesis Data Analytics for Apache Flink (KDA).
+>>>>>>> Stashed changes
 
 Apache Flink is an open-source stream processing engine that enables businesses to process streams and batch data for analytics, ETL processes, and data pipelines. At the heart of its functioning is a streaming runtime that provides distributed processing and fault tolerance capabilities.
 Apache Flink enables developers familiar with SQL to process and analyze streaming data with ease. Flink offers SQL syntax that supports event processing, time windows, and aggregations. This combination makes it a highly effective streaming query engine.
@@ -43,7 +51,7 @@ Performing SQL queries with KDA is possible by utilizing KDA Studio Notebooks. T
 ## What we’ll learn
 
 1. How to run SQL queries on streaming data with KDA Studio Notebooks
-2. How to deploy KDA studio notebook as a long running KDA application
+2. How to deploy KDA studio notebook as a long-running KDA application
 
 ## What we’ll build
 
@@ -51,7 +59,7 @@ Performing SQL queries with KDA is possible by utilizing KDA Studio Notebooks. T
 
 The proposed solution consists of the following elements:
 
-* Our sample data is *NYC Taxi Cab Trips* data set that includes fields capturing pick-up and drop-off dates/times/locations, trip distances and more. This will behave as a streaming data. We are going to enrich this data with a *Taxi Zone Geohash* data provided in another file.
+* Our sample data is *[NYC Taxi Cab Trips](https://registry.opendata.aws/nyc-tlc-trip-records-pds/)* data set that includes fields capturing pick-up and drop-off dates/times/locations, trip distances and more. This will behave as a streaming data. We are going to enrich this data with a *Taxi Zone Geohash* data provided in another file.
 * Ingest the data from S3 to KDS via KDA Studio Notebooks
 * Analyze data in KDS with SQL via KDA Studio Notebooks
 * Write processed data to S3
@@ -59,7 +67,7 @@ The proposed solution consists of the following elements:
 
 ## Walkthrough
 
-### Setting up the environment 
+### Setting up the environment
 
 #### Create an Amazon S3 bucket and upload the sample data
 
@@ -105,8 +113,13 @@ Your S3 bucket should look like the following screenshot.
 
 #### Update the IAM permissions
 
+<<<<<<< Updated upstream
 1. Go to the [_IAM Console Roles_](https://console.aws.amazon.com/iamv2/home?#/roles?sc_channel=el&sc_campaign=datamlwave&sc_content=cicdetlsprkaws&sc_geo=mult&sc_country=mult&sc_outcome=acq)
 2. Search for the name of the role that you created earlier in Step 8 during the KDA Studio creation. 
+=======
+1. Go to the [_IAM Console Roles_](https://console.aws.amazon.com/iamv2/home?#/roles)
+2. Search for the name of the role that you created earlier in Step 8 during the KDA Studio creation.
+>>>>>>> Stashed changes
 
 ![IAM Roles](images/IAM_1.png)
 
@@ -240,7 +253,7 @@ Now that we are ingesting the data into KDS, let’s create a new Zeppelin note 
 
 In order to count the number of trips for every borough in NYC we will need pickup location information.
 
-The data in `trips` table contains pickup location id (`PULocationID`), however, it does not contain information in which borough the trip was initiated. Luckily, we have the information which borough does every `LocationID` correspond to, in the separate file on S3 named `taxi_zone_with_geohash.csv`. 
+The data in `trips` table contains pickup location id (`PULocationID`), however, it does not contain information in which borough the trip was initiated. Luckily, we have the information which borough does every `LocationID` correspond to, in the separate file on S3 named `taxi_zone_with_geohash.csv`.
 
 First, we need to create a table that will represent the data in the `taxi_zone_with_geohash.csv` file.
 
@@ -282,7 +295,7 @@ GROUP BY locations.borough
 
 ##### Query 2: Count number of trips that occurred in Manhattan every hour
 
-The purpose of this query is to determine in which time windows NYC taxi demand is the highest in Manhattan. For that we will introduce streaming windows. 
+The purpose of this query is to determine in which time windows NYC taxi demand is the highest in Manhattan. For that we will introduce streaming windows.
 
 Windows in Apache Flink are a way of dividing up a stream into a series of finite sub-streams, each containing all of the events that fall within a certain time frame. This makes it possible to perform computations and analyses on those sub-streams as discrete units.
 
